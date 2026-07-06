@@ -93,8 +93,7 @@ Estimate calories and basic nutrition information for a recipe using an AI API.
 
 [gif goes here]
 
-### User Authentication *(MIght Implement
-)*
+### User Authentication *(might implement)*
 
 Allow users to create an account, log in, and securely access their own recipes and grocery lists.
 
