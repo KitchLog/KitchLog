@@ -72,14 +72,14 @@ View a recipe's ingredients, cooking instructions, original recipe link, and oth
 
 [gif goes here]
 
+
+### [ADDITIONAL FEATURES GO HERE - ADD ALL FEATURES HERE IN THE FORMAT ABOVE; you will check these off and add gifs as you complete them]
+
 ### Grocery Checklist
 
 Users can mark grocery list items as purchased or unpurchased while shopping, making it easier to keep track of what they still need to buy.
 
 [gif goes here]
-
-
-### [ADDITIONAL FEATURES GO HERE - ADD ALL FEATURES HERE IN THE FORMAT ABOVE; you will check these off and add gifs as you complete them]
 
 ### Recipe Import from Image *(might implement)*
 
