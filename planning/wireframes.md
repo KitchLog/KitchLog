@@ -4,18 +4,32 @@ Reference the Creating an Entity Relationship Diagram final project guide in the
 
 ## List of Pages
 
-[👉🏾👉🏾👉🏾 List the pages you expect to have in your app, with a ⭐ next to pages you have wireframed]
+⭐ Home Dashboard
 
-## Wireframe 1: [page title]
+⭐ Recipe Detail Page
 
-[👉🏾👉🏾👉🏾 include wireframe 1]
+⭐ Grocery List
 
-## Wireframe 2: [page title]
+Add Recipe Page (Manual Entry or Import from URL)
 
-[👉🏾👉🏾👉🏾 include wireframe 2]
+Cooking Plan Page
 
-## Wireframe 3: [page title]
+Edit Recipe Page
 
-[👉🏾👉🏾👉🏾 include wireframe 3]
+## Wireframe 1: Home Dashboard
 
-[👉🏾👉🏾👉🏾 include more wireframes as desired]
+The Home Dashboard allows users to browse their saved recipes, search by recipe name, filter recipes by category, and quickly add a new recipe or access their grocery list.
+
+![Home Dashboard](images/home.png)
+
+## Wireframe 2: Recipe Detail Page
+
+The Recipe Detail page displays the selected recipe's image, ingredients, cooking instructions, category, cook time, and original recipe link. Users can also favorite, edit, or add the recipe to their grocery list or cooking plan.
+
+![Recipe Detail](images/recipe-detail.png)
+
+## Wireframe 3: Grocery List
+
+The Grocery List page displays the recipes selected for cooking and automatically generates a combined shopping list with ingredient quantities. Users can check off purchased items while shopping.
+
+![Grocery List](images/grocery-list.png)
