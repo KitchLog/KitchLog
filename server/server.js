@@ -1,5 +1,6 @@
 import express from 'express'
 import recipesRouter from './routes/recipes.js'
+import cookingPlansRouter from './routes/cookingPlans.js'
 import cors from 'cors'
 import dotenv from 'dotenv';
 
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 });
 app.use(express.json());
 app.use('/api/recipes', recipesRouter);
+app.use('/api/cooking-plans', cookingPlansRouter);
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
