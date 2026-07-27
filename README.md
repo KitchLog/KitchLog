@@ -24,15 +24,15 @@ We wanted to build an application that solves these everyday problems by allowin
 
 ## Tech Stack
 
-Frontend:
+Frontend: React, React Router, Vite, CSS
 
-Backend:
+Backend: Node.js, Express, PostgreSQL, pg, dotenv, CORS
 
 ## Features
 
-### Recipe Management
+### ✅ Recipe Management
 
-Create, view, edit, and delete recipes. Users can optionally save the original source link when adding a recipe.
+Browse saved recipes and manually create new recipes. Users can enter a title, category, cook time, servings, instructions, optional source URL, optional image URL, and one or more ingredients.
 
 [gif goes here]
 
@@ -60,9 +60,9 @@ Automatically generate a combined grocery list by merging the ingredients from t
 
 [gif goes here]
 
-### Recipe Search & Filter
+### ✅ Recipe Search & Filter
 
-Search recipes by name and filter them by cuisine or category.
+Search recipes by name and filter them by category on the home page.
 
 [gif goes here]
 
@@ -102,4 +102,51 @@ Allow users to create an account, log in, and securely access their own recipes 
 
 ## Installation Instructions
 
-[instructions go here]
+### Backend
+
+1. Go to the backend folder:
+   ```bash
+   cd server
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `server/.env` file and add your database connection string:
+   ```bash
+   DATABASE_URL=your_postgresql_connection_string
+   ```
+
+4. Seed the database if needed:
+   ```bash
+   npm run seed
+   ```
+
+5. Start the backend server:
+   ```bash
+   npm run dev
+   ```
+
+### Frontend
+
+1. Go to the frontend folder:
+   ```bash
+   cd client
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Optional: create a `client/.env` file if your backend API is not running at `http://localhost:3000/api`:
+   ```bash
+   VITE_API_URL=http://localhost:3000/api
+   ```
+
+4. Start the frontend:
+   ```bash
+   npm run dev
+   ```
