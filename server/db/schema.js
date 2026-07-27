@@ -10,8 +10,10 @@ const schema = `
     title VARCHAR(255) NOT NULL,
     category VARCHAR(255),
     cook_time INTEGER,
+    servings INTEGER,
     instructions TEXT,
     source_url VARCHAR(255),
+    image_url VARCHAR(255),
     favorite BOOLEAN DEFAULT FALSE
   );
 
