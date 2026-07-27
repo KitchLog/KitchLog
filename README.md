@@ -40,7 +40,14 @@ Browse saved recipes and manually create new recipes. Users can enter a title, c
 
 Paste a recipe link and have the app automatically extract and populate the recipe's ingredients and instructions, so you don't have to enter them manually.
 
-[gif goes here]
+<div>
+    <a href="https://www.loom.com/share/e0786738d2ca40faaea37d6c643e18a1">
+      <p>Recipe Import from URL - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/e0786738d2ca40faaea37d6c643e18a1">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/e0786738d2ca40faaea37d6c643e18a1-ef7df85752759d0f-full-play.gif#t=0.1">
+    </a>
+  </div>
 
 ### Favorite recipes
 
@@ -52,7 +59,14 @@ Mark recipes as favorites for quick and easy access.
 
 Select one or more recipes you want to cook and organize them into a cooking plan.
 
-[gif goes here]
+<div>
+    <a href="https://www.loom.com/share/6d2d5090a4284e948359e2250b1e1d6d">
+      <p>Cooking Plans Endpoints - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/6d2d5090a4284e948359e2250b1e1d6d">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/6d2d5090a4284e948359e2250b1e1d6d-d942059bb2020336-full-play.gif#t=0.1">
+    </a>
+  </div>
 
 ### Automatic Grocery List
 
