@@ -14,13 +14,11 @@ KitchLog is a full-stack web application that helps users organize recipes and s
 
 The goal of KitchLog is to make cooking more organized and convenient by keeping recipes and grocery lists in one place. It also solves the common problem of losing track of recipes you've found online. Instead of searching the internet again and trying to remember the keywords or website you used, users can save recipes once and easily access them whenever they want to cook them again.
 
-
 ### Inspiration
 
 Many people, including ourselves, save recipes from different websites and blogs, making them difficult to keep organized. We often find ourselves searching for the same recipe again because we can't remember where we originally found it, or we don't remember the recipe anymore. Creating a grocery list for multiple recipes can also be repetitive and time-consuming.
 
 We wanted to build an application that solves these everyday problems by allowing users to save recipes in one place and automatically generate a grocery list based on the dishes they plan to cook. Our goal is to make cooking preparation more organized, convenient, and efficient.
-
 
 ## Tech Stack
 
@@ -34,11 +32,11 @@ Backend: Node.js, Express, PostgreSQL, pg, dotenv, CORS
 
 Browse saved recipes and manually create new recipes. Users can enter a title, category, cook time, servings, instructions, optional source URL, optional image URL, and one or more ingredients.
 
-[gif goes here]
+![Recipe Management gif](images/recipe_management.gif)
 
-### ✅ Recipe Import from URL
+### ✅ Recipe Import from URL _(Backend)_
 
-Paste a recipe link and have the app automatically extract and populate the recipe's ingredients and instructions, so you don't have to enter them manually.
+Backend endpoint can parse a recipe URL and return extracted recipe details and ingredients.
 
 <div>
     <a href="https://www.loom.com/share/e0786738d2ca40faaea37d6c643e18a1">
@@ -49,15 +47,21 @@ Paste a recipe link and have the app automatically extract and populate the reci
     </a>
   </div>
 
+### Recipe Import from URL _(Frontend Planned)_
+
+Frontend form where users can paste a recipe URL, preview the imported recipe details, and save the recipe to their collection.
+
+[gif goes here]
+
 ### Favorite recipes
 
 Mark recipes as favorites for quick and easy access.
 
 [gif goes here]
 
-### ✅ Cooking Plan
+### ✅ Cooking Plan _(Backend)_
 
-Select one or more recipes you want to cook and organize them into a cooking plan.
+Backend endpoints support creating and managing cooking plans from saved recipes.
 
 <div>
     <a href="https://www.loom.com/share/6d2d5090a4284e948359e2250b1e1d6d">
@@ -67,6 +71,12 @@ Select one or more recipes you want to cook and organize them into a cooking pla
       <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/6d2d5090a4284e948359e2250b1e1d6d-d942059bb2020336-full-play.gif#t=0.1">
     </a>
   </div>
+
+### Cooking Plan _(Frontend Planned)_
+
+Frontend page where users can select saved recipes, create a cooking plan, and view planned recipes.
+
+[gif goes here]
 
 ### Automatic Grocery List
 
@@ -78,7 +88,7 @@ Automatically generate a combined grocery list by merging the ingredients from t
 
 Search recipes by name and filter them by category on the home page.
 
-[gif goes here]
+![Recipe Search & Filter gif](images/search_and_filter.gif)
 
 ### Recipe Details Page
 
