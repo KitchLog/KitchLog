@@ -198,10 +198,52 @@ const importRecipe = async (req, res) => {
         return res.status(400).json({ error: "Invalid URL format" });
     }
 
+    let client;
     try {
         const recipeData = await fetchAndExtractRecipe(source_url);
-        res.json(recipeData);
+
+        client = await pool.connect();
+        await client.query("BEGIN");
+        const recipeResult = await client.query(
+            `INSERT INTO recipes (title, category, cook_time, servings, instructions, source_url, image_url, favorite)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+             RETURNING *`,
+            [recipeData.title, recipeData.category, recipeData.cook_time, null, recipeData.instructions, recipeData.source_url, null, false]
+        );
+
+        const recipe = recipeResult.rows[0];
+        for (const ingredient of recipeData.ingredients) {
+            const { name, quantity, unit } = ingredient;
+
+            if (!name) {
+                throw new Error("Each ingredient must have a name");
+            }
+
+            await client.query(
+                `INSERT INTO ingredients (recipe_id, name, quantity, unit)
+                 VALUES ($1, $2, $3, $4)`,
+                [recipe.id, name, quantity, unit]
+            );
+        }
+
+        await client.query("COMMIT");
+        const ingredientsResult = await pool.query(
+            "SELECT id, name, quantity, unit FROM ingredients WHERE recipe_id = $1 ORDER BY id ASC",
+            [recipe.id]
+        );
+
+        res.status(201).json({
+            ...recipe,
+            ingredients: ingredientsResult.rows,
+        });
     } catch (error) {
+        if (client) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (rollbackError) {
+                console.error("Rollback failed:", rollbackError);
+            }
+        }
         console.error('Error importing recipe:', error);
         
         const errorMessage = error.message || 'Error extracting recipe data';
@@ -212,6 +254,10 @@ const importRecipe = async (req, res) => {
             return res.status(422).json({ error: `Recipe data could not be extracted: ${errorMessage}` });
         } else {
             return res.status(500).json({ error: `Internal error importing recipe: ${errorMessage}` });
+        }
+    } finally {
+        if (client) {
+            client.release();
         }
     }
 }
