@@ -1,4 +1,5 @@
-import pool from '../db/connection.js'
+import pool from '../db/connection.js';
+import { fetchAndExtractRecipe, isValidUrl } from '../utils/recipeParser.js';
 
 const getAllRecipes = async (req, res) => {
     try {
@@ -186,4 +187,33 @@ const deleteRecipe = async (req, res) => {
     }
 }
 
-export { getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe };
+const importRecipe = async (req, res) => {
+    const { source_url } = req.body;
+
+    if (!source_url) {
+        return res.status(400).json({ error: "source_url is required" });
+    }
+
+    if (!isValidUrl(source_url)) {
+        return res.status(400).json({ error: "Invalid URL format" });
+    }
+
+    try {
+        const recipeData = await fetchAndExtractRecipe(source_url);
+        res.json(recipeData);
+    } catch (error) {
+        console.error('Error importing recipe:', error);
+        
+        const errorMessage = error.message || 'Error extracting recipe data';
+        
+        if (errorMessage.includes('Failed to fetch page')) {
+            return res.status(404).json({ error: `The page could not be accessed: ${errorMessage}` });
+        } else if (errorMessage.includes('No valid recipe metadata') || errorMessage.includes('missing or empty')) {
+            return res.status(422).json({ error: `Recipe data could not be extracted: ${errorMessage}` });
+        } else {
+            return res.status(500).json({ error: `Internal error importing recipe: ${errorMessage}` });
+        }
+    }
+}
+
+export { getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, importRecipe };

@@ -36,7 +36,7 @@ Create, view, edit, and delete recipes. Users can optionally save the original s
 
 [gif goes here]
 
-### Recipe Import from URL
+### ✅ Recipe Import from URL
 
 Paste a recipe link and have the app automatically extract and populate the recipe's ingredients and instructions, so you don't have to enter them manually.
 
@@ -48,7 +48,7 @@ Mark recipes as favorites for quick and easy access.
 
 [gif goes here]
 
-### Cooking Plan
+### ✅ Cooking Plan
 
 Select one or more recipes you want to cook and organize them into a cooking plan.
 
