@@ -3,7 +3,7 @@ import { fetchAndExtractRecipe, isValidUrl } from '../utils/recipeParser.js';
 
 const getAllRecipes = async (req, res) => {
     try {
-        const result = await pool.query('SELECT id, title, category, cook_time, favorite FROM recipes ORDER BY id ASC');
+        const result = await pool.query('SELECT id, title, category, cook_time, servings, image_url FROM recipes ORDER BY id ASC');
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching recipes:', error);
@@ -34,7 +34,7 @@ const getRecipeById = async (req, res) => {
 }
 
 const createRecipe = async (req, res) => {
-    const { title, category, cook_time, instructions, source_url, favorite, ingredients } = req.body;
+    const { title, category, cook_time, servings, instructions, source_url, image_url, favorite, ingredients } = req.body;
     
     if (!title) {
         return res.status(400).json({ error: "Title is required" });
@@ -49,10 +49,10 @@ const createRecipe = async (req, res) => {
         client = await pool.connect();
         await client.query("BEGIN");
         const recipeResult = await client.query(
-        `INSERT INTO recipes (title, category, cook_time, instructions, source_url, favorite)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        `INSERT INTO recipes (title, category, cook_time, servings, instructions, source_url, image_url, favorite)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING *`,
-      [title, category, cook_time, instructions, source_url, favorite]
+      [title, category, cook_time, servings, instructions, source_url, image_url, favorite]
         );
 
         const recipe = recipeResult.rows[0];
@@ -96,8 +96,10 @@ const updateRecipe = async (req, res) => {
         title,
         category,
         cook_time,
+        servings,
         instructions,
         source_url,
+        image_url,
         favorite = false,
         ingredients,
     } = req.body;
@@ -120,12 +122,14 @@ const updateRecipe = async (req, res) => {
        SET title = $1,
            category = $2,
            cook_time = $3,
-           instructions = $4,
-           source_url = $5,
-           favorite = $6
-       WHERE id = $7
+           servings = $4,
+           instructions = $5,
+           source_url = $6,
+           image_url = $7,
+           favorite = $8
+       WHERE id = $9
        RETURNING *`,
-      [title, category, cook_time, instructions, source_url, favorite, id]
+      [title, category, cook_time, servings, instructions, source_url, image_url, favorite, id]
     );
 
     if (recipeResult.rows.length === 0) {
