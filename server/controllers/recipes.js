@@ -218,7 +218,7 @@ const importRecipe = async (req, res) => {
             `INSERT INTO recipes (title, category, cook_time, servings, instructions, source_url, image_url, favorite)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
              RETURNING *`,
-            [recipeData.title, recipeData.category, recipeData.cook_time, recipeData.servings, recipeData.instructions, recipeData.source_url, null, false]
+            [recipeData.title, recipeData.category, recipeData.cook_time, recipeData.servings, recipeData.instructions, recipeData.source_url, recipeData.image_url, false]
         );
 
         const recipe = recipeResult.rows[0];

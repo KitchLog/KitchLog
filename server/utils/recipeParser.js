@@ -265,6 +265,34 @@ export function formatServings(rawYield) {
 }
 
 /**
+ * Extracts an image URL from schema.org image metadata.
+ * @param {string|Array|object|null} image
+ * @returns {string|null}
+ */
+export function extractImageUrl(image) {
+  if (!image) return null;
+
+  if (typeof image === 'string') {
+    return decodeHtmlEntities(image.trim()) || null;
+  }
+
+  if (Array.isArray(image)) {
+    for (const item of image) {
+      const imageUrl = extractImageUrl(item);
+      if (imageUrl) return imageUrl;
+    }
+
+    return null;
+  }
+
+  if (typeof image === 'object') {
+    return extractImageUrl(image.url || image.contentUrl || image.thumbnailUrl);
+  }
+
+  return null;
+}
+
+/**
  * Fetches recipe page and extracts JSON-LD recipe metadata.
  * @param {string} url 
  * @returns {Promise<object>}
@@ -327,6 +355,7 @@ export async function fetchAndExtractRecipe(url) {
   const cookTimeStr = recipeData.totalTime || recipeData.cookTime || recipeData.prepTime || '';
   const cookTime = formatDuration(cookTimeStr);
   const servings = formatServings(recipeData.recipeYield || recipeData.yield);
+  const imageUrl = extractImageUrl(recipeData.image);
 
   // Extract category
   let category = null;
@@ -343,6 +372,7 @@ export async function fetchAndExtractRecipe(url) {
     category: normalizeCategory(category),
     cook_time: cookTime,
     servings,
+    image_url: imageUrl,
     instructions,
     source_url: url,
     ingredients
