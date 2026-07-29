@@ -192,6 +192,38 @@ export function parseISO8601Duration(duration) {
 }
 
 /**
+ * Maps imported recipe categories to the app's supported category list.
+ * @param {string|null} rawCategory
+ * @returns {string}
+ */
+export function normalizeCategory(rawCategory) {
+  if (!rawCategory || typeof rawCategory !== 'string') return 'Other';
+
+  const category = rawCategory.toLowerCase();
+
+  if (category.includes('appetizer') || category.includes('starter')) {
+    return 'Appetizer';
+  }
+
+  if (category.includes('dessert') || category.includes('sweet')) {
+    return 'Dessert';
+  }
+
+  if (
+    category.includes('main') ||
+    category.includes('dinner') ||
+    category.includes('lunch') ||
+    category.includes('meal') ||
+    category.includes('entree') ||
+    category.includes('entrée')
+  ) {
+    return 'Main';
+  }
+
+  return 'Other';
+}
+
+/**
  * Fetches recipe page and extracts JSON-LD recipe metadata.
  * @param {string} url 
  * @returns {Promise<object>}
@@ -266,7 +298,7 @@ export async function fetchAndExtractRecipe(url) {
 
   return {
     title,
-    category,
+    category: normalizeCategory(category),
     cook_time,
     instructions,
     source_url: url,

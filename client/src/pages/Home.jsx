@@ -139,7 +139,7 @@ function Home() {
         {!isLoading &&
           !error &&
           displayedRecipes.map((recipe) => (
-            <article key={recipe.id} className="recipe-row">
+            <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="recipe-row">
               <div className="recipe-image">
                 <img
                   src={recipe.image_url || getCategoryImage(recipe.category)}
@@ -155,10 +155,10 @@ function Home() {
                 <p>{recipe.category || 'Uncategorized'}</p>
               </div>
               <div className="recipe-meta">
-                <span className="cook-time">{recipe.cook_time ? `${recipe.cook_time} min` : 'No time set'}</span>
-                <span>{recipe.servings ? `${recipe.servings} servings` : '-'}</span>
+                <span className="cook-time">Time: {recipe.cook_time ? `${recipe.cook_time} min` : 'N/A'}</span>
+                <span>Servings: {recipe.servings || 'N/A'}</span>
               </div>
-            </article>
+            </Link>
           ))}
       </div>
     </div>
