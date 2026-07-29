@@ -49,7 +49,7 @@ Backend endpoint can parse a recipe URL and return extracted recipe details and 
 
 ### ✅ Recipe Import from URL _(Frontend)_
 
-Frontend form where users can paste a recipe URL, preview the imported recipe details, and save the recipe to their collection.
+Frontend form where users can paste a recipe URL and import it directly into their saved recipes.
 
 <div>
     <a href="https://www.loom.com/share/b50817bb7675447cb6cd35b919bfe927">
@@ -97,11 +97,10 @@ Search recipes by name and filter them by category on the home page.
 
 ![Recipe Search & Filter gif](images/search_and_filter.gif)
 
-### Recipe Details Page
+### ✅ Recipe Details Page
 
-View a recipe's ingredients, cooking instructions, original recipe link, and other details on a dedicated page.
-
-[gif goes here]
+View a recipe's ingredients, cooking instructions, original recipe link, image, cook time, servings, and other details on a dedicated page. Users can also edit or delete a recipe from this page.
+![Recipe Detail Page gif](images/recipe_detail_page.gif)
 
 
 ### [ADDITIONAL FEATURES GO HERE - ADD ALL FEATURES HERE IN THE FORMAT ABOVE; you will check these off and add gifs as you complete them]

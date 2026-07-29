@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { createRecipe } from '../api/recipes'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { createRecipe, getRecipe, updateRecipe } from '../api/recipes'
 import categoryOther from '../assets/category-other.svg'
 import { RECIPE_CATEGORIES } from '../constants/categories'
 import './RecipeForm.css'
@@ -18,10 +18,47 @@ const emptyRecipe = {
 }
 
 function RecipeForm() {
+  const { id } = useParams()
   const navigate = useNavigate()
   const [recipe, setRecipe] = useState(emptyRecipe)
+  const [isLoading, setIsLoading] = useState(Boolean(id))
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
+  const isEditing = Boolean(id)
+
+  useEffect(() => {
+    if (!isEditing) {
+      return
+    }
+
+    const loadRecipe = async () => {
+      try {
+        const data = await getRecipe(id)
+        setRecipe({
+          title: data.title || '',
+          category: data.category || '',
+          cook_time: data.cook_time || '',
+          servings: data.servings || '',
+          instructions: data.instructions || '',
+          source_url: data.source_url || '',
+          image_url: data.image_url || '',
+          ingredients: data.ingredients?.length
+            ? data.ingredients.map((ingredient) => ({
+                name: ingredient.name || '',
+                quantity: ingredient.quantity || '',
+                unit: ingredient.unit || '',
+              }))
+            : [{ ...emptyIngredient }],
+        })
+      } catch (fetchError) {
+        setError(fetchError.status === 404 ? 'Recipe not found.' : fetchError.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadRecipe()
+  }, [id, isEditing])
 
   const handleRecipeChange = (event) => {
     const { name, value } = event.target
@@ -68,8 +105,8 @@ function RecipeForm() {
       ...recipe,
       title: recipe.title.trim(),
       category: recipe.category.trim() || null,
-      cook_time: recipe.cook_time ? Number(recipe.cook_time) : null,
-      servings: recipe.servings ? Number(recipe.servings) : null,
+      cook_time: recipe.cook_time.trim() || null,
+      servings: recipe.servings.trim() || null,
       instructions: recipe.instructions.trim() || null,
       source_url: recipe.source_url.trim() || null,
       image_url: recipe.image_url.trim() || null,
@@ -95,8 +132,8 @@ function RecipeForm() {
     }
 
     try {
-      await createRecipe(payload)
-      navigate('/')
+      const savedRecipe = isEditing ? await updateRecipe(id, payload) : await createRecipe(payload)
+      navigate(`/recipes/${savedRecipe.id}`)
     } catch (saveError) {
       setError(saveError.message)
     } finally {
@@ -104,16 +141,44 @@ function RecipeForm() {
     }
   }
 
+  const categoryOptions =
+    recipe.category && !RECIPE_CATEGORIES.includes(recipe.category)
+      ? [...RECIPE_CATEGORIES, recipe.category]
+      : RECIPE_CATEGORIES
+
+  if (isLoading) {
+    return (
+      <main className="recipe-form-page">
+        <p className="form-status">Loading recipe...</p>
+      </main>
+    )
+  }
+
+  if (isEditing && error && recipe.title === '') {
+    return (
+      <main className="recipe-form-page">
+        <div className="form-status form-error">
+          <h1>{error}</h1>
+          <Link to="/">Back to recipes</Link>
+        </div>
+      </main>
+    )
+  }
+
   return (
     <main className="recipe-form-page">
       <div className="form-topbar">
-        <Link to="/">Back</Link>
+        <Link to={isEditing ? `/recipes/${id}` : '/'}>Back</Link>
       </div>
 
       <header className="form-header">
-        <p className="eyebrow">Manual entry</p>
-        <h1>Add Recipe</h1>
-        <p>Save the recipe details and at least one ingredient.</p>
+        <p className="eyebrow">{isEditing ? 'Recipe update' : 'Manual entry'}</p>
+        <h1>{isEditing ? 'Edit Recipe' : 'Add Recipe'}</h1>
+        <p>
+          {isEditing
+            ? 'Update the recipe details and ingredients.'
+            : 'Save the recipe details and at least one ingredient.'}
+        </p>
       </header>
 
       <form className="recipe-form" onSubmit={handleSubmit}>
@@ -136,7 +201,7 @@ function RecipeForm() {
                 onChange={handleRecipeChange}
               >
                 <option value="">Select category</option>
-                {RECIPE_CATEGORIES.map((category) => (
+                {categoryOptions.map((category) => (
                   <option key={category} value={category}>
                     {category}
                   </option>
@@ -148,23 +213,20 @@ function RecipeForm() {
               <span>Cook time</span>
               <input
                 name="cook_time"
-                type="number"
-                min="0"
                 value={recipe.cook_time}
                 onChange={handleRecipeChange}
-                placeholder="Minutes"
+                placeholder="40 min"
               />
+              <small className="field-note neutral">Include the unit, like 40 min or 1.5-2 hours.</small>
             </label>
 
             <label>
               <span>Servings</span>
               <input
                 name="servings"
-                type="number"
-                min="1"
                 value={recipe.servings}
                 onChange={handleRecipeChange}
-                placeholder="4"
+                placeholder="4-6 people"
               />
             </label>
           </div>
@@ -194,6 +256,9 @@ function RecipeForm() {
               onChange={handleRecipeChange}
               placeholder="Optional"
             />
+            <small className="field-note">
+              This saves the original recipe link only. It does not auto-import recipe details.
+            </small>
           </label>
 
           <label>
@@ -258,11 +323,11 @@ function RecipeForm() {
         </section>
 
         <div className="form-actions">
-          <Link to="/" className="cancel-link">
+          <Link to={isEditing ? `/recipes/${id}` : '/'} className="cancel-link">
             Cancel
           </Link>
           <button type="submit" className="save-btn" disabled={isSaving}>
-            {isSaving ? 'Saving...' : 'Save Recipe'}
+            {isSaving ? 'Saving...' : isEditing ? 'Update Recipe' : 'Save Recipe'}
           </button>
         </div>
       </form>

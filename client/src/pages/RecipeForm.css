@@ -64,6 +64,28 @@
   font-weight: 750;
 }
 
+.field-note {
+  width: fit-content;
+  padding: 8px 10px;
+  border-left: 3px solid #d97706;
+  border-radius: 6px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.field-note.neutral {
+  width: auto;
+  padding: 0;
+  border-left: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #667085;
+  font-weight: 650;
+}
+
 .recipe-form input,
 .recipe-form select,
 .recipe-form textarea {
@@ -112,7 +134,7 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 160px 160px;
+  grid-template-columns: 1fr;
   gap: 14px;
 }
 

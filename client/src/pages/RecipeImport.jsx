@@ -10,7 +10,7 @@ function RecipeImport() {
   const [error, setError] = useState('')
 
   const handleRecipeURLChange = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     setRecipeURL(value)
   }
 
@@ -55,8 +55,8 @@ function RecipeImport() {
             <label>
                 <span>Recipe URL</span>
                 <input name="url" value={recipeURL} onChange={handleRecipeURLChange} required />
-                <button type="submit" className="import-btn">
-                  Import
+                <button type="submit" className="import-btn" disabled={isSaving}>
+                  {isSaving ? 'Importing...' : 'Import'}
                 </button>
             </label>
         </section>

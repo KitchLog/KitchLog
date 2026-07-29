@@ -4,7 +4,9 @@ const handleResponse = async (response) => {
   const data = await response.json().catch(() => null)
 
   if (!response.ok) {
-    throw new Error(data?.error || 'Something went wrong. Please try again.')
+    const error = new Error(data?.error || 'Something went wrong. Please try again.')
+    error.status = response.status
+    throw error
   }
 
   return data
@@ -12,6 +14,11 @@ const handleResponse = async (response) => {
 
 export const getRecipes = async () => {
   const response = await fetch(`${API_URL}/recipes`)
+  return handleResponse(response)
+}
+
+export const getRecipe = async (id) => {
+  const response = await fetch(`${API_URL}/recipes/${id}`)
   return handleResponse(response)
 }
 
@@ -34,6 +41,26 @@ export const importRecipe = async (url) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(url),
+  })
+
+  return handleResponse(response)
+}
+
+export const updateRecipe = async (id, recipe) => {
+  const response = await fetch(`${API_URL}/recipes/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(recipe),
+  })
+
+  return handleResponse(response)
+}
+
+export const deleteRecipe = async (id) => {
+  const response = await fetch(`${API_URL}/recipes/${id}`, {
+    method: 'DELETE',
   })
 
   return handleResponse(response)
