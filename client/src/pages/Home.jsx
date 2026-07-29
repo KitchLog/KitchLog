@@ -73,7 +73,7 @@ function Home() {
         <div className='buttons'>
           <Link to="/recipes/new" className="add-recipe-btn">
             <span>+</span>
-            Add Recipe
+            Add Manually
           </Link>
           <Link to="/recipes/import" className="import-recipe-btn">
             <span>+</span>
@@ -128,7 +128,7 @@ function Home() {
             <h2>Your recipe box is empty</h2>
             <div className='buttons'>
               <Link to="/recipes/new" className="empty-action">
-                Add your first recipe
+                Add your first recipe manually
               </Link>
               <Link to="/recipes/import" className="empty-action">
                 Import your first recipe
@@ -166,7 +166,7 @@ function Home() {
                 <p>{recipe.category || 'Uncategorized'}</p>
               </div>
               <div className="recipe-meta">
-                <span className="cook-time">Time: {recipe.cook_time ? `${recipe.cook_time} min` : 'N/A'}</span>
+                <span className="cook-time">Time: {recipe.cook_time || 'N/A'}</span>
                 <span>Servings: {recipe.servings || 'N/A'}</span>
               </div>
             </Link>

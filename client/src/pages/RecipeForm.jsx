@@ -105,8 +105,8 @@ function RecipeForm() {
       ...recipe,
       title: recipe.title.trim(),
       category: recipe.category.trim() || null,
-      cook_time: recipe.cook_time ? Number(recipe.cook_time) : null,
-      servings: recipe.servings ? Number(recipe.servings) : null,
+      cook_time: recipe.cook_time.trim() || null,
+      servings: recipe.servings.trim() || null,
       instructions: recipe.instructions.trim() || null,
       source_url: recipe.source_url.trim() || null,
       image_url: recipe.image_url.trim() || null,
@@ -213,23 +213,20 @@ function RecipeForm() {
               <span>Cook time</span>
               <input
                 name="cook_time"
-                type="number"
-                min="0"
                 value={recipe.cook_time}
                 onChange={handleRecipeChange}
-                placeholder="Minutes"
+                placeholder="40 min"
               />
+              <small className="field-note neutral">Include the unit, like 40 min or 1.5-2 hours.</small>
             </label>
 
             <label>
               <span>Servings</span>
               <input
                 name="servings"
-                type="number"
-                min="1"
                 value={recipe.servings}
                 onChange={handleRecipeChange}
-                placeholder="4"
+                placeholder="4-6 people"
               />
             </label>
           </div>
@@ -259,6 +256,9 @@ function RecipeForm() {
               onChange={handleRecipeChange}
               placeholder="Optional"
             />
+            <small className="field-note">
+              This saves the original recipe link only. It does not auto-import recipe details.
+            </small>
           </label>
 
           <label>

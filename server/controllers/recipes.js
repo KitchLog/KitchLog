@@ -34,7 +34,17 @@ const getRecipeById = async (req, res) => {
 }
 
 const createRecipe = async (req, res) => {
-    const { title, category, cook_time, servings, instructions, source_url, image_url, favorite, ingredients } = req.body;
+    const {
+        title,
+        category,
+        cook_time,
+        servings,
+        instructions,
+        source_url,
+        image_url,
+        favorite,
+        ingredients
+    } = req.body;
     
     if (!title) {
         return res.status(400).json({ error: "Title is required" });
@@ -208,7 +218,7 @@ const importRecipe = async (req, res) => {
             `INSERT INTO recipes (title, category, cook_time, servings, instructions, source_url, image_url, favorite)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
              RETURNING *`,
-            [recipeData.title, recipeData.category, recipeData.cook_time, null, recipeData.instructions, recipeData.source_url, null, false]
+            [recipeData.title, recipeData.category, recipeData.cook_time, recipeData.servings, recipeData.instructions, recipeData.source_url, null, false]
         );
 
         const recipe = recipeResult.rows[0];

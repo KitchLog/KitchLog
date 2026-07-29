@@ -105,7 +105,7 @@ function RecipeDetails() {
           <p className="eyebrow">{recipe.category || 'Uncategorized'}</p>
           <h1>{recipe.title}</h1>
           <div className="details-meta">
-            <span>Time: {recipe.cook_time ? `${recipe.cook_time} min` : 'N/A'}</span>
+            <span>Time: {recipe.cook_time || 'N/A'}</span>
             <span>Servings: {recipe.servings || 'N/A'}</span>
             <span>{recipe.favorite ? 'Favorite' : 'Not favorite'}</span>
           </div>

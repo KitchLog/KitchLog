@@ -181,14 +181,41 @@ export function formatInstructions(instructions) {
 export function parseISO8601Duration(duration) {
   if (!duration || typeof duration !== 'string') return 0;
   
-  const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+  const regex = /P(?:(\d+(?:\.\d+)?)Y)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)W)?(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?/;
   const match = duration.match(regex);
   if (!match) return 0;
 
-  const hours = parseInt(match[1] || '0', 10);
-  const minutes = parseInt(match[2] || '0', 10);
+  const years = Number(match[1] || 0);
+  const months = Number(match[2] || 0);
+  const weeks = Number(match[3] || 0);
+  const days = Number(match[4] || 0);
+  const hours = Number(match[5] || 0);
+  const minutes = Number(match[6] || 0);
+  const seconds = Number(match[7] || 0);
   
-  return hours * 60 + minutes;
+  return Math.ceil(
+    years * 365 * 24 * 60 +
+      months * 30 * 24 * 60 +
+      weeks * 7 * 24 * 60 +
+      days * 24 * 60 +
+      hours * 60 +
+      minutes +
+      seconds / 60,
+  );
+}
+
+/**
+ * Formats recipe duration metadata for display and storage.
+ * @param {string} duration
+ * @returns {string|null}
+ */
+export function formatDuration(duration) {
+  if (!duration || typeof duration !== 'string') return null;
+
+  const minutes = parseISO8601Duration(duration);
+  if (minutes) return `${minutes} min`;
+
+  return decodeHtmlEntities(duration.trim()) || null;
 }
 
 /**
@@ -221,6 +248,20 @@ export function normalizeCategory(rawCategory) {
   }
 
   return 'Other';
+}
+
+/**
+ * Formats recipe yield metadata for display and storage.
+ * @param {string|number|Array|null} rawYield
+ * @returns {string|null}
+ */
+export function formatServings(rawYield) {
+  if (rawYield === null || rawYield === undefined) return null;
+
+  const yieldText = Array.isArray(rawYield) ? rawYield.join(' ') : String(rawYield);
+  const servings = decodeHtmlEntities(yieldText.trim());
+
+  return servings || null;
 }
 
 /**
@@ -283,8 +324,9 @@ export async function fetchAndExtractRecipe(url) {
   }
 
   // Extract cook time
-  const cookTimeStr = recipeData.cookTime || recipeData.totalTime || recipeData.prepTime || '';
-  const cook_time = parseISO8601Duration(cookTimeStr) || null;
+  const cookTimeStr = recipeData.totalTime || recipeData.cookTime || recipeData.prepTime || '';
+  const cookTime = formatDuration(cookTimeStr);
+  const servings = formatServings(recipeData.recipeYield || recipeData.yield);
 
   // Extract category
   let category = null;
@@ -299,7 +341,8 @@ export async function fetchAndExtractRecipe(url) {
   return {
     title,
     category: normalizeCategory(category),
-    cook_time,
+    cook_time: cookTime,
+    servings,
     instructions,
     source_url: url,
     ingredients
