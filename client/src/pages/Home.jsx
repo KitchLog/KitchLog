@@ -70,10 +70,16 @@ function Home() {
           </p>
         </div>
 
-        <Link to="/recipes/new" className="add-recipe-btn">
-          <span>+</span>
-          Add Recipe
-        </Link>
+        <div className='buttons'>
+          <Link to="/recipes/new" className="add-recipe-btn">
+            <span>+</span>
+            Add Recipe
+          </Link>
+          <Link to="/recipes/import" className="import-recipe-btn">
+            <span>+</span>
+            Import Recipe
+          </Link>
+        </div>
 
         <img className="home-hero-image" src={cookingHero} alt="" aria-hidden="true" />
       </section>
@@ -120,9 +126,14 @@ function Home() {
           <div className="status-card empty-state">
             <img className="empty-state-image" src={emptyRecipes} alt="" aria-hidden="true" />
             <h2>Your recipe box is empty</h2>
-            <Link to="/recipes/new" className="empty-action">
-              Add your first recipe
-            </Link>
+            <div className='buttons'>
+              <Link to="/recipes/new" className="empty-action">
+                Add your first recipe
+              </Link>
+              <Link to="/recipes/import" className="empty-action">
+                Import your first recipe
+              </Link>
+            </div>
           </div>
         )}
 
