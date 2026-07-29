@@ -26,3 +26,15 @@ export const createRecipe = async (recipe) => {
 
   return handleResponse(response)
 }
+
+export const importRecipe = async (url) => {
+  const response = await fetch(`${API_URL}/recipes/import`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(url),
+  })
+
+  return handleResponse(response)
+}
