@@ -45,13 +45,20 @@ Backend endpoint can parse a recipe URL and return extracted recipe details and 
     <a href="https://www.loom.com/share/e0786738d2ca40faaea37d6c643e18a1">
       <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/e0786738d2ca40faaea37d6c643e18a1-ef7df85752759d0f-full-play.gif#t=0.1">
     </a>
-  </div>
+</div>
 
-### Recipe Import from URL _(Frontend Planned)_
+### ✅ Recipe Import from URL _(Frontend)_
 
 Frontend form where users can paste a recipe URL, preview the imported recipe details, and save the recipe to their collection.
 
-[gif goes here]
+<div>
+    <a href="https://www.loom.com/share/b50817bb7675447cb6cd35b919bfe927">
+      <p>Import Recipe Frontend and Database Parsing - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/b50817bb7675447cb6cd35b919bfe927">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/b50817bb7675447cb6cd35b919bfe927-52384c6b079ece5e-full-play.gif#t=0.1">
+    </a>
+  </div>
 
 ### Favorite recipes
 

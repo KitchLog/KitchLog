@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import RecipeDetails from './pages/RecipeDetails'
 import RecipeForm from './pages/RecipeForm'
+import RecipeImport from './pages/RecipeImport'
 import './App.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/recipes/new" element={<RecipeForm />} />
+        <Route path="/recipes/import" element={<RecipeImport />} />
         <Route path="/recipes/:id" element={<RecipeDetails />} />
         <Route path="/recipes/:id/edit" element={<RecipeForm />} />
       </Routes>
