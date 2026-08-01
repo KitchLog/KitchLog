@@ -1,4 +1,19 @@
 import pool from '../db/connection.js';
+import { generateGroceryListForPlan } from './groceryLists.js';
+
+const normalizeRecipeIds = (ids) =>
+    [...new Set((ids || []).map((recipeId) => Number(recipeId)))].sort((a, b) => a - b);
+
+const recipeIdsChanged = (currentIds, nextIds) => {
+    const normalizedCurrentIds = normalizeRecipeIds(currentIds);
+    const normalizedNextIds = normalizeRecipeIds(nextIds);
+
+    if (normalizedCurrentIds.length !== normalizedNextIds.length) {
+        return true;
+    }
+
+    return normalizedCurrentIds.some((recipeId, index) => recipeId !== normalizedNextIds[index]);
+}
 
 const getAllCookingPlans = async (req, res) => {
     try {
@@ -98,13 +113,15 @@ const createCookingPlan = async (req, res) => {
         const plan = planResult.rows[0];
 
         if (ids && Array.isArray(ids) && ids.length > 0) {
-            for (const recipeId of ids) {
+            for (const recipeId of normalizeRecipeIds(ids)) {
                 await client.query(
                     'INSERT INTO plan_recipes (plan_id, recipe_id) VALUES ($1, $2)',
                     [plan.id, recipeId]
                 );
             }
         }
+
+        await generateGroceryListForPlan(client, plan.id);
 
         await client.query('COMMIT');
 
@@ -186,16 +203,29 @@ const updateCookingPlan = async (req, res) => {
 
         // Update recipes if provided
         if (ids !== undefined) {
-            // Clear existing plan_recipes
-            await client.query('DELETE FROM plan_recipes WHERE plan_id = $1', [id]);
+            const currentRecipesResult = await client.query(
+                'SELECT recipe_id FROM plan_recipes WHERE plan_id = $1 ORDER BY recipe_id ASC',
+                [id]
+            );
+            const currentIds = currentRecipesResult.rows.map((recipe) => recipe.recipe_id);
+            const nextIds = Array.isArray(ids) ? ids : [];
 
-            if (Array.isArray(ids) && ids.length > 0) {
-                for (const recipeId of ids) {
-                    await client.query(
-                        'INSERT INTO plan_recipes (plan_id, recipe_id) VALUES ($1, $2)',
-                        [id, recipeId]
-                    );
+            if (recipeIdsChanged(currentIds, nextIds)) {
+                // Clear existing plan_recipes
+                await client.query('DELETE FROM plan_recipes WHERE plan_id = $1', [id]);
+
+                const dedupedNextIds = normalizeRecipeIds(nextIds);
+
+                if (dedupedNextIds.length > 0) {
+                    for (const recipeId of dedupedNextIds) {
+                        await client.query(
+                            'INSERT INTO plan_recipes (plan_id, recipe_id) VALUES ($1, $2)',
+                            [id, recipeId]
+                        );
+                    }
                 }
+
+                await generateGroceryListForPlan(client, id);
             }
         }
 
