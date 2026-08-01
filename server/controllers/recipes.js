@@ -1,5 +1,6 @@
 import pool from '../db/connection.js';
 import { fetchAndExtractRecipe, isValidUrl } from '../utils/recipeParser.js';
+import { generateGroceryListForPlan } from './groceryLists.js';
 
 const getAllRecipes = async (req, res) => {
     try {
@@ -163,6 +164,15 @@ const updateRecipe = async (req, res) => {
       );
     }
 
+    const affectedPlansResult = await client.query(
+      "SELECT plan_id FROM plan_recipes WHERE recipe_id = $1",
+      [id]
+    );
+
+    for (const { plan_id } of affectedPlansResult.rows) {
+      await generateGroceryListForPlan(client, plan_id);
+    }
+
     await client.query("COMMIT");
 
     const ingredientsResult = await pool.query(
@@ -185,15 +195,49 @@ const updateRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
     const { id } = req.params;
+
+    let client;
     try {
-        const result = await pool.query('DELETE FROM recipes WHERE id = $1 RETURNING *', [id]);
+        client = await pool.connect();
+        await client.query('BEGIN');
+
+        const affectedPlansResult = await client.query(
+            'SELECT plan_id FROM plan_recipes WHERE recipe_id = $1',
+            [id]
+        );
+        const affectedPlanIds = affectedPlansResult.rows.map((row) => row.plan_id);
+
+        const result = await client.query('DELETE FROM recipes WHERE id = $1 RETURNING *', [id]);
         if (result.rows.length === 0) {
+            await client.query('ROLLBACK');
             return res.status(404).json({ error: 'Recipe not found' });
         }
-        res.json({ message: 'Recipe deleted successfully' });
+
+        // Deleting the recipe cascades to remove it from any cooking plans (plan_recipes),
+        // so affected plans' grocery lists must be regenerated to drop its ingredients.
+        for (const planId of affectedPlanIds) {
+            await generateGroceryListForPlan(client, planId);
+        }
+
+        await client.query('COMMIT');
+
+        res.json({
+            message: 'Recipe deleted successfully',
+            ...(affectedPlanIds.length > 0 && {
+                warning: `This recipe was removed from ${affectedPlanIds.length} cooking plan(s); their grocery lists have been updated.`,
+                affected_plan_ids: affectedPlanIds,
+            }),
+        });
     } catch (error) {
+        if (client) {
+            await client.query('ROLLBACK');
+        }
         console.error(`Error deleting recipe with ID ${id}:`, error);
         res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            client.release();
+        }
     }
 }
 
