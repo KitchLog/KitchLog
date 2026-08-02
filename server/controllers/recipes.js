@@ -4,7 +4,7 @@ import { generateGroceryListForPlan } from './groceryLists.js';
 
 const getAllRecipes = async (req, res) => {
     try {
-        const result = await pool.query('SELECT id, title, category, cook_time, servings, image_url FROM recipes ORDER BY id ASC');
+        const result = await pool.query('SELECT id, title, category, cook_time, servings, image_url, favorite FROM recipes ORDER BY id ASC');
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching recipes:', error);
@@ -43,7 +43,7 @@ const createRecipe = async (req, res) => {
         instructions,
         source_url,
         image_url,
-        favorite,
+        favorite = false,
         ingredients
     } = req.body;
     
@@ -316,4 +316,83 @@ const importRecipe = async (req, res) => {
     }
 }
 
-export { getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, importRecipe };
+/**
+ * PATCH /api/recipes/:id
+ * Partially updates a recipe. Used by the frontend to mark/unmark a recipe as favorite
+ * (e.g. { favorite: true } or { favorite: false }) without resending the entire recipe object.
+ */
+const patchRecipe = async (req, res) => {
+    const { id } = req.params;
+    const fieldsToUpdate = req.body;
+
+    if (!fieldsToUpdate || Object.keys(fieldsToUpdate).length === 0) {
+        return res.status(400).json({ error: "No fields provided to update" });
+    }
+
+    const allowedFields = ['title', 'category', 'cook_time', 'servings', 'instructions', 'source_url', 'image_url', 'favorite'];
+    
+    const invalidFields = Object.keys(fieldsToUpdate).filter(field => !allowedFields.includes(field));
+    if (invalidFields.length > 0) {
+        return res.status(400).json({ error: `Invalid fields: ${invalidFields.join(', ')}` });
+    }
+
+    let client;
+    try {
+        client = await pool.connect();
+        await client.query("BEGIN");
+
+        const checkResult = await client.query('SELECT id FROM recipes WHERE id = $1', [id]);
+        if (checkResult.rows.length === 0) {
+            await client.query("ROLLBACK");
+            return res.status(404).json({ error: "Recipe not found" });
+        }
+
+        const queryParts = [];
+        const queryValues = [];
+        let index = 1;
+
+        for (const [key, value] of Object.entries(fieldsToUpdate)) {
+            queryParts.push(`${key} = $${index}`);
+            queryValues.push(value);
+            index++;
+        }
+
+        queryValues.push(id);
+        const updateQuery = `
+            UPDATE recipes
+            SET ${queryParts.join(', ')}
+            WHERE id = $${index}
+            RETURNING *
+        `;
+
+        const recipeResult = await client.query(updateQuery, queryValues);
+        
+        await client.query("COMMIT");
+
+        const ingredientsResult = await pool.query(
+            "SELECT id, name, quantity, unit FROM ingredients WHERE recipe_id = $1 ORDER BY id ASC",
+            [id]
+        );
+
+        res.json({
+            ...recipeResult.rows[0],
+            ingredients: ingredientsResult.rows,
+        });
+    } catch (error) {
+        if (client) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (rollbackError) {
+                console.error("Rollback failed:", rollbackError);
+            }
+        }
+        console.error(`Error patching recipe with ID ${id}:`, error);
+        res.status(500).json({ error: "Internal Server Error" });
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export { getAllRecipes, getRecipeById, createRecipe, updateRecipe, deleteRecipe, importRecipe, patchRecipe };
