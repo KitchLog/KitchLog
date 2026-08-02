@@ -60,11 +60,18 @@ Frontend form where users can paste a recipe URL and import it directly into the
     </a>
   </div>
 
-### Favorite recipes
+### ✅ Favorite recipes
 
 Mark recipes as favorites for quick and easy access.
 
-[gif goes here]
+<div>
+    <a href="https://www.loom.com/share/7b401f1fe0e54767b07bc5c50347a503">
+      <p>Implement Favorite Toggle with PATCH API - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/7b401f1fe0e54767b07bc5c50347a503">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/7b401f1fe0e54767b07bc5c50347a503-a1b77bbbb62241ca-full-play.gif#t=0.1">
+    </a>
+  </div>
 
 ### ✅ Cooking Plan _(Backend)_
 
