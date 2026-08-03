@@ -131,7 +131,7 @@ function CookingPlanForm() {
         ? await updateCookingPlan(id, payload)
         : await createCookingPlan(payload);
       // navigate(`/cooking-plan/${savedCookingPlan.id}`);
-      navigate(`/`);
+      navigate(`/?tab=cooking-plans`);
     } catch (saveError) {
       setError(saveError.message);
     } finally {
@@ -152,7 +152,7 @@ function CookingPlanForm() {
       <main className="cooking-plan-form-page">
         <div className="form-status form-error">
           <h1>{error}</h1>
-          <Link className='back-link' to="/">Back to cooking plans</Link>
+          <Link className='back-link' to="/?tab=cooking-plans">Back to cooking plans</Link>
         </div>
       </main>
     );
@@ -161,7 +161,7 @@ function CookingPlanForm() {
   return (
     <main className="cooking-plan-form-page">
       <div className="form-topbar">
-        <Link className='back-link' to={isEditing ? `/cooking-plans/${id}` : "/"}>Back</Link>
+        <Link className='back-link' to={isEditing ? `/cooking-plans/${id}` : "/?tab=cooking-plans"}>Back</Link>
       </div>
 
       <header className="form-header">
@@ -197,12 +197,6 @@ function CookingPlanForm() {
         <section className="form-section">
           <div className="section-heading-row">
             <h2>Recipes</h2>
-            {/* <button type="button" className="secondary-btn" onClick={}>
-              Add Recipe
-            </button>
-            <button type="button" className="secondary-btn" onClick={}>
-              Import Recipe
-            </button> */}
           </div>
 
           <div className="recipe-list">
@@ -258,7 +252,7 @@ function CookingPlanForm() {
 
         <div className="form-actions">
           <Link
-            to={isEditing ? `/cooking-plans/${id}` : "/"}
+            to={isEditing ? `/cooking-plans/${id}` : "/?tab=cooking-plans"}
             className="cancel-link"
           >
             Cancel
