@@ -1,43 +1,45 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { importRecipe } from '../api/recipes'
-import './RecipeImport.css'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { importRecipe } from "../api/recipes";
+import "./RecipeImport.css";
 
 function RecipeImport() {
-  const navigate = useNavigate()
-  const [recipeURL, setRecipeURL] = useState('')
-  const [isSaving, setIsSaving] = useState(false)
-  const [error, setError] = useState('')
+  const navigate = useNavigate();
+  const [recipeURL, setRecipeURL] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState("");
 
   const handleRecipeURLChange = (event) => {
-    const { value } = event.target
-    setRecipeURL(value)
-  }
+    const { value } = event.target;
+    setRecipeURL(value);
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    setError('')
-    setIsSaving(true)
+    event.preventDefault();
+    setError("");
+    setIsSaving(true);
 
     const payload = {
       source_url: recipeURL,
-    }
+    };
 
     try {
-      await importRecipe(payload)
-    //   console.log("Recipe Imported") //for debugging
-      navigate('/')
+      await importRecipe(payload);
+      //   console.log("Recipe Imported") //for debugging
+      navigate("/");
     } catch (saveError) {
-      setError(saveError.message)
+      setError(saveError.message);
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   return (
     <main className="recipe-import-page">
       <div className="form-topbar">
-        <Link to="/">Back</Link>
+        <Link className="back-link" to="/">
+          Back
+        </Link>
       </div>
 
       <header className="form-header">
@@ -49,20 +51,25 @@ function RecipeImport() {
       <form className="recipe-form" onSubmit={handleSubmit}>
         {error && <p className="form-error">{error}</p>}
 
-        <section className='form-section'>
-            <h2>Import URL</h2>
+        <section className="form-section">
+          <h2>Import URL</h2>
 
-            <label>
-                <span>Recipe URL</span>
-                <input name="url" value={recipeURL} onChange={handleRecipeURLChange} required />
-                <button type="submit" className="import-btn" disabled={isSaving}>
-                  {isSaving ? 'Importing...' : 'Import'}
-                </button>
-            </label>
+          <label>
+            <span>Recipe URL</span>
+            <input
+              name="url"
+              value={recipeURL}
+              onChange={handleRecipeURLChange}
+              required
+            />
+            <button type="submit" className="import-btn" disabled={isSaving}>
+              {isSaving ? "Importing..." : "Import"}
+            </button>
+          </label>
         </section>
       </form>
     </main>
-  )
+  );
 }
 
-export default RecipeImport
+export default RecipeImport;

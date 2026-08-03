@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { deleteRecipe, getRecipe } from '../api/recipes'
+import { getCookingPlans, updateCookingPlan } from '../api/cookingPlans'
+import './RecipeDetails.css'
+
 import categoryAppetizer from '../assets/category-appetizer.svg'
 import categoryDessert from '../assets/category-dessert.svg'
 import categoryMain from '../assets/category-main.svg'
 import categoryOther from '../assets/category-other.svg'
-import './RecipeDetails.css'
+
+
 
 const CATEGORY_IMAGES = {
   Appetizer: categoryAppetizer,
@@ -26,7 +30,14 @@ function RecipeDetails() {
   const [isLoading, setIsLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
   const [error, setError] = useState('')
+  const [planError, setPlanError] = useState('')
+  const [isPlanMenuOpen, setIsPlanMenuOpen] = useState(false)
+  const [cookingPlans, setCookingPlans] = useState([])
+  const [pendingPlanId, setPendingPlanId] = useState(null)
 
+  const planMenuRef = useRef(null)
+
+  
   useEffect(() => {
     const loadRecipe = async () => {
       try {
@@ -38,9 +49,76 @@ function RecipeDetails() {
         setIsLoading(false)
       }
     }
-
+    
     loadRecipe()
   }, [id])
+  
+  useEffect(() => {
+    const loadCookingPlans = async () => {
+      try {
+        const data = await getCookingPlans()
+        setCookingPlans(data)
+      } catch (fetchError) {
+        setPlanError(fetchError.message)
+      }
+    }
+    
+    loadCookingPlans()
+  }, [])
+
+  useEffect(() => {
+    if (!isPlanMenuOpen) {
+      return
+    }
+
+    const handlePointerDown = (event) => {
+      if (planMenuRef.current && !planMenuRef.current.contains(event.target)) {
+        setIsPlanMenuOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsPlanMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isPlanMenuOpen])
+
+  const planContainsRecipe = (plan) =>
+    (plan.recipes || []).some((planRecipe) => planRecipe.id === recipe?.id)
+
+  const togglePlan = async (plan) => {
+    if (pendingPlanId) {
+      return
+    }
+
+    setPlanError('')
+    setPendingPlanId(plan.id)
+
+    const currentIds = (plan.recipes || []).map((planRecipe) => planRecipe.id)
+    const nextIds = planContainsRecipe(plan)
+      ? currentIds.filter((recipeId) => recipeId !== recipe.id)
+      : [...currentIds, recipe.id]
+
+    try {
+      const updatedPlan = await updateCookingPlan(plan.id, { recipeIds: nextIds })
+      setCookingPlans((plans) =>
+        plans.map((currentPlan) => (currentPlan.id === plan.id ? updatedPlan : currentPlan)),
+      )
+    } catch (updateError) {
+      setPlanError(updateError.message)
+    } finally {
+      setPendingPlanId(null)
+    }
+  }
 
   const handleDelete = async () => {
     const shouldDelete = window.confirm('Delete this recipe? This cannot be undone.')
@@ -75,7 +153,7 @@ function RecipeDetails() {
         <div className="details-status details-error">
           <h1>{error}</h1>
           <p>We could not find that recipe. It may have been deleted or the link may be wrong.</p>
-          <Link to="/" className="primary-link">
+          <Link to="/" className="back-link">
             Back to recipes
           </Link>
         </div>
@@ -86,7 +164,7 @@ function RecipeDetails() {
   return (
     <main className="recipe-details-page">
       <div className="details-topbar">
-        <Link to="/">Back to recipes</Link>
+        <Link className='back-link' to="/">Back to recipes</Link>
       </div>
 
       {error && <p className="details-inline-error">{error}</p>}
@@ -113,12 +191,56 @@ function RecipeDetails() {
       </section>
 
       <div className="details-actions">
-        <Link to={`/recipes/${recipe.id}/edit`} className="primary-link">
-          Edit Recipe
-        </Link>
-        <button type="button" className="danger-btn" onClick={handleDelete} disabled={isDeleting}>
-          {isDeleting ? 'Deleting...' : 'Delete Recipe'}
-        </button>
+        <div className='left-actions' ref={planMenuRef}>
+          <button
+            type="button"
+            className="primary-link add-recipe-to-plan-btn"
+            onClick={() => setIsPlanMenuOpen((isOpen) => !isOpen)}
+            aria-expanded={isPlanMenuOpen}
+            aria-haspopup="true"
+          >
+            Add Recipe to Cooking Plan
+          </button>
+
+          {isPlanMenuOpen && (
+            <div className="plan-menu" role="menu">
+              {planError && <p className="plan-menu-error">{planError}</p>}
+
+              {cookingPlans.length === 0 ? (
+                <p className="plan-menu-empty">No cooking plans yet.</p>
+              ) : (
+                cookingPlans.map((plan) => {
+                  const isInPlan = planContainsRecipe(plan)
+
+                  return (
+                    <button
+                      key={plan.id}
+                      type="button"
+                      role="menuitemcheckbox"
+                      aria-checked={isInPlan}
+                      className="plan-menu-item"
+                      onClick={() => togglePlan(plan)}
+                      disabled={pendingPlanId !== null}
+                    >
+                      <span className="plan-menu-tick" aria-hidden="true">
+                        {isInPlan ? '✓' : ''}
+                      </span>
+                      <span className="plan-menu-name">{plan.name}</span>
+                    </button>
+                  )
+                })
+              )}
+            </div>
+          )}
+        </div>
+        <div className='right-actions'>
+          <Link to={`/recipes/${recipe.id}/edit`} className="primary-link">
+            Edit Recipe
+          </Link>
+          <button type="button" className="danger-btn" onClick={handleDelete} disabled={isDeleting}>
+            {isDeleting ? 'Deleting...' : 'Delete Recipe'}
+          </button>
+        </div>
       </div>
 
       <section className="details-section">
