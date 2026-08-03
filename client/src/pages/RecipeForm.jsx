@@ -168,7 +168,7 @@ function RecipeForm() {
   return (
     <main className="recipe-form-page">
       <div className="form-topbar">
-        <Link to={isEditing ? `/recipes/${id}` : '/'}>Back</Link>
+        <Link className='back-link' to={isEditing ? `/recipes/${id}` : '/'}>Back</Link>
       </div>
 
       <header className="form-header">

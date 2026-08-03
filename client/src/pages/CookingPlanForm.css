@@ -1,0 +1,346 @@
+.cooking-plan-form-page {
+  width: min(100%, 920px);
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #1f2933;
+  text-align: left;
+}
+
+.form-topbar {
+  margin-bottom: 20px;
+}
+
+.form-topbar a,
+.cooking-plan-form-page .cancel-link {
+  color: #1f6f5b;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.form-header {
+  margin-bottom: 24px;
+}
+
+.form-header h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 2.5rem;
+  letter-spacing: 0;
+}
+
+.form-header p:last-child {
+  max-width: 560px;
+  margin-top: 10px;
+  color: #667085;
+  line-height: 1.6;
+}
+
+.cooking-plan-form {
+  display: grid;
+  gap: 18px;
+}
+
+.form-section {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.form-section h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.25rem;
+}
+
+.cooking-plan-form label {
+  display: grid;
+  gap: 8px;
+  color: #344054;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.cooking-plan-form input,
+.cooking-plan-form select,
+.cooking-plan-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+  outline: none;
+  resize: vertical;
+}
+
+.cooking-plan-form input:focus,
+.cooking-plan-form select:focus,
+.cooking-plan-form textarea:focus {
+  border-color: #1f6f5b;
+  box-shadow: 0 0 0 4px rgba(31, 111, 91, 0.12);
+}
+
+.image-preview-card {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border: 1px solid #eef0f3;
+  border-radius: 8px;
+  background: #fbfcfd;
+}
+
+.image-preview-card img {
+  width: 120px;
+  height: 90px;
+  border-radius: 7px;
+  object-fit: cover;
+  background: #fff7ed;
+}
+
+.image-preview-card p {
+  color: #667085;
+  font-weight: 750;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.recipe-list {
+  display: grid;
+  gap: 12px;
+}
+
+.recipe-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipe-image {
+  width: 74px;
+  height: 58px;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #fff7ed;
+}
+
+.recipe-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recipe-info {
+  min-width: 0;
+}
+
+.recipe-info h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.recipe-info p {
+  margin-top: 6px;
+  color: #667085;
+  font-size: 0.92rem;
+}
+
+.recipe-meta {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  color: #475467;
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cooking-plan-form-page .secondary-btn,
+.cooking-plan-form-page .remove-btn,
+.cooking-plan-form-page .save-btn, 
+.add-or-remove-recipe-btn {
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.cooking-plan-form-page .secondary-btn:hover,
+.cooking-plan-form-page .remove-btn:hover,
+.cooking-plan-form-page .save-btn:hover, 
+.add-or-remove-recipe-btn:hover {
+  transform: scale(1.02);
+  background: #103c31;
+}
+
+.cooking-plan-form-page .secondary-btn:active,
+.cooking-plan-form-page .remove-btn:active,
+.cooking-plan-form-page .save-btn:active, 
+.add-or-remove-recipe-btn:active {
+  transform: scale(1);
+}
+
+.cooking-plan-form-page .cancel-link,
+.cooking-plan-form-page .back-link {
+  transition: transform 0.5s ease;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+
+}
+
+.cooking-plan-form-page .cancel-link:hover,
+.cooking-plan-form-page .back-link:hover {
+  transform: scale(1.02);
+  border: 1px solid #1f6f5b;
+}
+
+.cooking-plan-form-page .cancel-link:active,
+.cooking-plan-form-page .back-link:active {
+  transform: scale(1);
+  border: 1px solid #1f6f5b;
+}
+
+.cooking-plan-form-page .back-link {
+  width: 5%;
+}
+
+.add-or-remove-recipe-btn {
+  grid-column: 1 / -1;
+  width: 100%;
+  border: 0; 
+  color: #ffffff;
+}
+
+.add-or-remove-recipe-btn.green{
+  width: 100%;
+  border: 0; 
+  background: #1f6f5b; 
+  color: #ffffff;
+}
+
+.add-or-remove-recipe-btn.red{
+  width: 100%;
+  border: 0; 
+  background: #a52020; 
+  color: #ffffff;
+}
+
+.add-or-remove-recipe-btn.green:hover{
+  background: #103c31; 
+}
+
+.add-or-remove-recipe-btn.red:hover{
+  background: #721616; 
+}
+
+.cooking-plan-form-page .secondary-btn {
+  border: 1px solid #d0d5dd;
+  background: #ffffff;
+  color: #344054;
+}
+
+.cooking-plan-form-page .remove-btn {
+  border: 1px solid #fecaca;
+  background: #ffffff;
+  color: #991b1b;
+}
+
+.cooking-plan-form-page .save-btn {
+  border: 0;
+  background: #1f6f5b;
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(31, 111, 91, 0.2);
+}
+
+.cooking-plan-form-page .save-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.form-error,
+.form-status {
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff8f8;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.form-status {
+  border: 1px dashed #cfd7df;
+  background: #ffffff;
+  color: #667085;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .cooking-plan-form-page {
+    padding: 20px;
+  }
+
+  .form-header h1 {
+    font-size: 2rem;
+  }
+
+  .form-grid,
+  .image-preview-card,
+  .ingredient-row {
+    grid-template-columns: 1fr;
+  }
+
+  .image-preview-card img {
+    width: 100%;
+  }
+
+  .section-heading-row,
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cooking-plan-form-page .secondary-btn,
+  .cooking-plan-form-page .remove-btn,
+  .cooking-plan-form-page .save-btn {
+    width: 100%;
+  }
+}
