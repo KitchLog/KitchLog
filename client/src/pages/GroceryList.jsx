@@ -87,7 +87,7 @@ function GroceryList() {
         <div className="details-status details-error">
           <h1>{error}</h1>
           <p>We could not find that cooking plan. It may have been deleted or the link may be wrong.</p>
-          <Link className="back-link" to="/">
+          <Link className="back-link" to="/?tab=cooking-plans">
             Back to cooking plans
           </Link>
         </div>
@@ -98,8 +98,8 @@ function GroceryList() {
   return (
     <main className="grocery-list-page">
       <div className="details-topbar">
-        <Link className="back-link" to="/">
-          Back to cooking plans
+        <Link className="back-link" to={`/cooking-plans/${id}`}>
+          Back to cooking plan
         </Link>
       </div>
 

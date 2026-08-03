@@ -115,11 +115,11 @@ View a cooking plan's name and recipes added on a dedicated page. Users can also
   </a>
 </div>
 
-### Automatic Grocery List
+### ✅ Automatic Grocery List
 
 Automatically generate a combined grocery list by merging the ingredients from the selected recipes in a cooking plan.
 
-[gif goes here]
+![Automatic Grocery List gif](images/grocery_list.gif)
 
 ### ✅ Recipe Search & Filter
 
@@ -135,11 +135,11 @@ View a recipe's ingredients, cooking instructions, original recipe link, image, 
 
 ### [ADDITIONAL FEATURES GO HERE - ADD ALL FEATURES HERE IN THE FORMAT ABOVE; you will check these off and add gifs as you complete them]
 
-### Grocery Checklist
+### ✅ Grocery Checklist
 
 Users can mark grocery list items as purchased or unpurchased while shopping, making it easier to keep track of what they still need to buy.
 
-[gif goes here]
+![Grocery Checklist gif](images/grocery_list_check_function.gif)
 
 ### Recipe Import from Image *(might implement)*
 

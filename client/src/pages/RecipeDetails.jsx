@@ -176,7 +176,7 @@ function RecipeDetails() {
           <h1>{error}</h1>
           <p>We could not find that recipe. It may have been deleted or the link may be wrong.</p>
           <Link to="/" className="back-link">
-            Back to recipes
+            Back to Home
           </Link>
         </div>
       </main>
@@ -186,7 +186,7 @@ function RecipeDetails() {
   return (
     <main className="recipe-details-page">
       <div className="details-topbar">
-        <Link className='back-link' to="/">Back to recipes</Link>
+        <Link className='back-link' to="/">Back to Home</Link>
       </div>
 
       {error && <p className="details-inline-error">{error}</p>}
