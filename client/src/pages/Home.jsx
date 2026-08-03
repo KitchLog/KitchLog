@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { getRecipes, updateRecipeFavorite } from '../api/recipes'
 import { getCookingPlans, deleteCookingPlan } from '../api/cookingPlans'
 import categoryAll from '../assets/category-all.svg'
@@ -25,6 +25,7 @@ const CATEGORY_IMAGES = {
 const getCategoryImage = (category) => CATEGORY_IMAGES[category] || categoryOther
 
 function Home() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [recipes, setRecipes] = useState([])
   const [cookingPlans, setCookingPlans] = useState([])
   const [activeCategory, setActiveCategory] = useState('All')
@@ -35,7 +36,7 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [favoriteError, setFavoriteError] = useState('')
-  const [activeTab, setActiveTab] = useState('recipes')
+  const activeTab = searchParams.get('tab') || 'recipes'
 
   useEffect(() => {
     const loadRecipes = async () => {
@@ -100,30 +101,30 @@ function Home() {
   }
 
   const handleDeleteCookingPlan = async (event, id) => {
-      event.preventDefault();
-      event.stopPropagation()
-      setError("");
+    event.preventDefault();
+    event.stopPropagation()
+    setError("");
 
-      const shouldDelete = window.confirm('Delete this cooking plan? This cannot be undone.')
+    const shouldDelete = window.confirm('Delete this cooking plan? This cannot be undone.')
 
-      if (!shouldDelete) {
-        return
-      }
-  
-      if (!id) {
-        setError("Cooking plan id is required.");
-        return;
-      }
-  
-      try {
-        await deleteCookingPlan(id)
-        setCookingPlans(plans => plans.filter(p => p.id !== id))
-        // navigate(`/cooking-plan/${savedCookingPlan.id}`);
-        // navigate(`/`);
-      } catch (saveError) {
-        setError(saveError.message);
-      }
-    };
+    if (!shouldDelete) {
+      return
+    }
+
+    if (!id) {
+      setError("Cooking plan id is required.");
+      return;
+    }
+
+    try {
+      await deleteCookingPlan(id)
+      setCookingPlans(plans => plans.filter(p => p.id !== id))
+      // navigate(`/cooking-plan/${savedCookingPlan.id}`);
+      // navigate(`/`);
+    } catch (saveError) {
+      setError(saveError.message);
+    }
+  };
 
   const categories = [
     ...DEFAULT_CATEGORIES,
@@ -175,14 +176,14 @@ function Home() {
         <button
           className= {activeTab === "recipes" ? "tab-btn tabActive" : "tab-btn"}
           type="button"
-          onClick={() => setActiveTab('recipes')}
+          onClick={() => setSearchParams({ tab: 'recipes' })}
         >
           Recipes
         </button>
         <button
           className= {activeTab === "cooking-plans" ? "tab-btn tabActive" : "tab-btn"}
           type="button"
-          onClick={() => setActiveTab('cooking-plans')}
+          onClick={() => setSearchParams({ tab: 'cooking-plans' })}
         >
           Cooking Plans
         </button>

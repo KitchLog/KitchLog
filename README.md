@@ -2,7 +2,7 @@
 
 CodePath WEB103 Final Project
 
-Designed and developed by: Sanvi Singh, Omar Alim Mohamed, Yumejichi Fujita, Viet Thai Nguyen
+Designed and developed by: [Yumejichi Fujita](https://github.com/Yumejichi),  [Omar Alim Mohamed](https://github.com/thetireddude), [Viet Thai Nguyen](https://github.com/AlgoriThai07), [Sanvi Singh](https://github.com/sansin112)
 
 🔗 Link to deployed app:
 
@@ -94,13 +94,26 @@ Backend endpoints support creating and managing cooking plans from saved recipes
 Frontend page where users can select saved recipes, create a cooking plan, and view planned recipes.
 
 <div>
-    <a href="https://www.loom.com/share/1402f85647f84d8a969a010129cb3c11">
-      <p>Cooking Plan Frontend Demo - Watch Video</p>
-    </a>
-    <a href="https://www.loom.com/share/1402f85647f84d8a969a010129cb3c11">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/1402f85647f84d8a969a010129cb3c11-dac5e231ce785703-full-play.gif#t=0.1">
-    </a>
-  </div>
+  <a href="https://www.loom.com/share/1402f85647f84d8a969a010129cb3c11">
+    <p>Cooking Plan Frontend Demo - Watch Video</p>
+  </a>
+  <a href="https://www.loom.com/share/1402f85647f84d8a969a010129cb3c11">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/1402f85647f84d8a969a010129cb3c11-dac5e231ce785703-full-play.gif#t=0.1">
+  </a>
+</div>
+
+### ✅ Cooking Plan Details Page 
+
+View a cooking plan's name and recipes added on a dedicated page. Users can also edit or delete the cooking plan from this page.
+
+<div>
+  <a href="https://www.loom.com/share/897cf0a9c5da451a8105e3b319e30a0a">
+    <p>Cooking Plan Details Page - Watch Video</p>
+  </a>
+  <a href="https://www.loom.com/share/897cf0a9c5da451a8105e3b319e30a0a">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/897cf0a9c5da451a8105e3b319e30a0a-d4bdc0fd3d0d9af5-full-play.gif#t=0.1">
+  </a>
+</div>
 
 ### Automatic Grocery List
 
