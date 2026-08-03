@@ -101,6 +101,14 @@ function Home() {
     }
   }
 
+  const handleResetView = () => {
+    setActiveCategory('All')
+    setShowFavoritesOnly(false)
+    setRecipeSearch('')
+    setCookingPlanSearch('')
+    setSearchParams({ tab: 'recipes' })
+  }
+
   const handleDeleteCookingPlan = async (event, id) => {
     event.preventDefault();
     event.stopPropagation()
@@ -153,7 +161,9 @@ function Home() {
       <section className="home-hero">
         <div className="home-hero-copy">
           <p className="eyebrow">Recipe manager</p>
-          <h1>KitchLog</h1>
+          <button type="button" className="home-title-btn" onClick={handleResetView}>
+            <h1>KitchLog</h1>
+          </button>
           <p className="home-subtitle">
             Keep your recipes organized, easy to scan, and ready for your next grocery run.
           </p>
