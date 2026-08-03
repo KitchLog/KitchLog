@@ -72,6 +72,9 @@ Mark recipes as favorites for quick and easy access.
       <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/7b401f1fe0e54767b07bc5c50347a503-a1b77bbbb62241ca-full-play.gif#t=0.1">
     </a>
   </div>
+  
+![Favorite recipes gif](images/favorite_recipe.gif)
+
 
 ### ✅ Cooking Plan _(Backend)_
 

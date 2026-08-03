@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { getRecipes } from '../api/recipes'
+import { getRecipes, updateRecipeFavorite } from '../api/recipes'
 import { getCookingPlans, deleteCookingPlan } from '../api/cookingPlans'
 import categoryAll from '../assets/category-all.svg'
 import categoryAppetizer from '../assets/category-appetizer.svg'
@@ -29,10 +29,13 @@ function Home() {
   const [recipes, setRecipes] = useState([])
   const [cookingPlans, setCookingPlans] = useState([])
   const [activeCategory, setActiveCategory] = useState('All')
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
+  const [pendingFavoriteIds, setPendingFavoriteIds] = useState(new Set())
   const [recipeSearch, setRecipeSearch] = useState('')
   const [cookingPlanSearch, setCookingPlanSearch] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
+  const [favoriteError, setFavoriteError] = useState('')
   const activeTab = searchParams.get('tab') || 'recipes'
 
   useEffect(() => {
@@ -64,6 +67,38 @@ function Home() {
 
     loadCookingPlans()
   }, [])
+
+  const handleToggleFavorite = async (event, recipe) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    if (pendingFavoriteIds.has(recipe.id)) {
+      return
+    }
+
+    const nextFavorite = !recipe.favorite
+
+    setFavoriteError('')
+    setPendingFavoriteIds((previous) => new Set(previous).add(recipe.id))
+    setRecipes((previous) =>
+      previous.map((r) => (r.id === recipe.id ? { ...r, favorite: nextFavorite } : r)),
+    )
+
+    try {
+      await updateRecipeFavorite(recipe.id, nextFavorite)
+    } catch (toggleError) {
+      setFavoriteError(toggleError.message)
+      setRecipes((previous) =>
+        previous.map((r) => (r.id === recipe.id ? { ...r, favorite: recipe.favorite } : r)),
+      )
+    } finally {
+      setPendingFavoriteIds((previous) => {
+        const next = new Set(previous)
+        next.delete(recipe.id)
+        return next
+      })
+    }
+  }
 
   const handleDeleteCookingPlan = async (event, id) => {
     event.preventDefault();
@@ -104,7 +139,8 @@ function Home() {
   const displayedRecipes = recipes.filter((recipe) => {
     const matchesCategory = activeCategory === 'All' || recipe.category === activeCategory
     const matchesSearch = (recipe.title || '').toLowerCase().includes(normalizedRecipeSearch)
-    return matchesCategory && matchesSearch
+    const matchesFavorite = !showFavoritesOnly || recipe.favorite
+    return matchesCategory && matchesSearch && matchesFavorite
   })
   const displayedCookingPlans = cookingPlans.filter((cookingPlan) => {
     const matchesSearch = (cookingPlan.name || '').toLowerCase().includes(normalizedCookingPlanSearch)
@@ -177,8 +213,18 @@ function Home() {
                   {category}
                 </button>
               ))}
+              <button
+                type="button"
+                className={`filter-pill favorite-filter-pill ${showFavoritesOnly ? 'active' : ''}`}
+                onClick={() => setShowFavoritesOnly((value) => !value)}
+                aria-pressed={showFavoritesOnly}
+              >
+                {showFavoritesOnly ? '★' : '☆'} Favorites only
+              </button>
             </div>
           </section>
+
+          {favoriteError && <p className="inline-error">{favoriteError}</p>}
 
           <div className="recipe-list">
             {isLoading && <p className="status-card">Loading your recipe box...</p>}
@@ -237,6 +283,16 @@ function Home() {
                     <span className="cook-time">Time: {recipe.cook_time || 'N/A'}</span>
                     <span>Servings: {recipe.servings || 'N/A'}</span>
                   </div>
+                  <button
+                    type="button"
+                    className={`favorite-btn ${recipe.favorite ? 'active' : ''}`}
+                    onClick={(event) => handleToggleFavorite(event, recipe)}
+                    disabled={pendingFavoriteIds.has(recipe.id)}
+                    aria-pressed={recipe.favorite}
+                    aria-label={recipe.favorite ? 'Remove from favorites' : 'Add to favorites'}
+                  >
+                    {recipe.favorite ? '★' : '☆'}
+                  </button>
                 </Link>
               ))}
           </div>

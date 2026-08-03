@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { deleteRecipe, getRecipe } from '../api/recipes'
+import { deleteRecipe, getRecipe, updateRecipeFavorite } from '../api/recipes'
 import { getCookingPlans, updateCookingPlan } from '../api/cookingPlans'
 import './RecipeDetails.css'
 
@@ -29,6 +29,7 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isTogglingFavorite, setIsTogglingFavorite] = useState(false)
   const [error, setError] = useState('')
   const [planError, setPlanError] = useState('')
   const [isPlanMenuOpen, setIsPlanMenuOpen] = useState(false)
@@ -120,6 +121,27 @@ function RecipeDetails() {
     }
   }
 
+  const handleToggleFavorite = async () => {
+    if (isTogglingFavorite) {
+      return
+    }
+
+    const nextFavorite = !recipe.favorite
+
+    setError('')
+    setIsTogglingFavorite(true)
+    setRecipe((currentRecipe) => ({ ...currentRecipe, favorite: nextFavorite }))
+
+    try {
+      await updateRecipeFavorite(id, nextFavorite)
+    } catch (favoriteError) {
+      setError(favoriteError.message)
+      setRecipe((currentRecipe) => ({ ...currentRecipe, favorite: !nextFavorite }))
+    } finally {
+      setIsTogglingFavorite(false)
+    }
+  }
+
   const handleDelete = async () => {
     const shouldDelete = window.confirm('Delete this recipe? This cannot be undone.')
 
@@ -185,7 +207,15 @@ function RecipeDetails() {
           <div className="details-meta">
             <span>Time: {recipe.cook_time || 'N/A'}</span>
             <span>Servings: {recipe.servings || 'N/A'}</span>
-            <span>{recipe.favorite ? 'Favorite' : 'Not favorite'}</span>
+            <button
+              type="button"
+              className={`favorite-pill ${recipe.favorite ? 'active' : ''}`}
+              onClick={handleToggleFavorite}
+              disabled={isTogglingFavorite}
+              aria-pressed={recipe.favorite}
+            >
+              {recipe.favorite ? '★ Favorited' : '☆ Add to favorites'}
+            </button>
           </div>
         </div>
       </section>

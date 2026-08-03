@@ -65,3 +65,15 @@ export const deleteRecipe = async (id) => {
 
   return handleResponse(response)
 }
+
+export const updateRecipeFavorite = async (id, favorite) => {
+  const response = await fetch(`${API_URL}/recipes/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ favorite }),
+  })
+
+  return handleResponse(response)
+}
