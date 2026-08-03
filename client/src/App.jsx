@@ -6,6 +6,7 @@ import GroceryList from './pages/GroceryList'
 import RecipeForm from './pages/RecipeForm'
 import CookingPlanForm from './pages/CookingPlanForm'
 import RecipeImport from './pages/RecipeImport'
+import Admin from './pages/Admin'
 import './App.css'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/cooking-plans/:id/grocery-list" element={<GroceryList />} />
         <Route path="/recipes/:id/edit" element={<RecipeForm />} />
         <Route path="/cooking-plans/:id/edit" element={<CookingPlanForm />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   )

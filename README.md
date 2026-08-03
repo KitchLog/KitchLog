@@ -4,7 +4,7 @@ CodePath WEB103 Final Project
 
 Designed and developed by: [Yumejichi Fujita](https://github.com/Yumejichi),  [Omar Alim Mohamed](https://github.com/thetireddude), [Viet Thai Nguyen](https://github.com/AlgoriThai07), [Sanvi Singh](https://github.com/sansin112)
 
-🔗 Link to deployed app:
+🔗 Link to deployed app: [https://kitchlog-uyc4.onrender.com](https://kitchlog-uyc4.onrender.com)
 
 ## About
 
@@ -210,3 +210,7 @@ Allow users to create an account, log in, and securely access their own recipes 
    ```bash
    npm run dev
    ```
+
+## Resetting the Database
+
+Visit `/admin` in the app (not linked from the navigation) for a "Reset Demo Data" button that recreates the schema and re-seeds a few default recipes and a cooking plan. The same reset can be run locally via `npm run seed` in `server/`.

@@ -1,10 +1,10 @@
 import pool from './connection.js'
-import schema from './schema.js'
+import { resetDatabaseToDefault } from './resetDatabase.js'
 
 const seed = async () => {
   try {
-    await pool.query(schema)
-    console.log('Database schema created successfully.')
+    await resetDatabaseToDefault(pool)
+    console.log('Database reset to default state successfully.')
   } catch (error) {
     console.error('Error seeding database:', error)
   } finally {

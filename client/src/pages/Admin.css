@@ -1,0 +1,15 @@
+.admin-page {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #1f2933;
+}
+
+.admin-success {
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #ecfdf3;
+  color: #027a48;
+  font-weight: 700;
+}

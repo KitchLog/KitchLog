@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { getRecipes, updateRecipeFavorite } from '../api/recipes'
 import { getCookingPlans, deleteCookingPlan } from '../api/cookingPlans'
+import RecipeRow from '../components/RecipeRow'
 import categoryAll from '../assets/category-all.svg'
 import categoryAppetizer from '../assets/category-appetizer.svg'
 import categoryDessert from '../assets/category-dessert.svg'
@@ -264,36 +265,23 @@ function Home() {
             {!isLoading &&
               !error &&
               displayedRecipes.map((recipe) => (
-                <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="recipe-row">
-                  <div className="recipe-image">
-                    <img
-                      src={recipe.image_url || getCategoryImage(recipe.category)}
-                      alt=""
-                      aria-hidden="true"
-                      onError={(event) => {
-                        event.currentTarget.src = getCategoryImage(recipe.category)
-                      }}
-                    />
-                  </div>
-                  <div className="recipe-info">
-                    <h3>{recipe.title}</h3>
-                    <p>{recipe.category || 'Uncategorized'}</p>
-                  </div>
-                  <div className="recipe-meta">
-                    <span className="cook-time">Time: {recipe.cook_time || 'N/A'}</span>
-                    <span>Servings: {recipe.servings || 'N/A'}</span>
-                  </div>
-                  <button
-                    type="button"
-                    className={`favorite-btn ${recipe.favorite ? 'active' : ''}`}
-                    onClick={(event) => handleToggleFavorite(event, recipe)}
-                    disabled={pendingFavoriteIds.has(recipe.id)}
-                    aria-pressed={recipe.favorite}
-                    aria-label={recipe.favorite ? 'Remove from favorites' : 'Add to favorites'}
-                  >
-                    {recipe.favorite ? '★' : '☆'}
-                  </button>
-                </Link>
+                <RecipeRow
+                  key={recipe.id}
+                  recipe={recipe}
+                  to={`/recipes/${recipe.id}`}
+                  action={
+                    <button
+                      type="button"
+                      className={`favorite-btn ${recipe.favorite ? 'active' : ''}`}
+                      onClick={(event) => handleToggleFavorite(event, recipe)}
+                      disabled={pendingFavoriteIds.has(recipe.id)}
+                      aria-pressed={recipe.favorite}
+                      aria-label={recipe.favorite ? 'Remove from favorites' : 'Add to favorites'}
+                    >
+                      {recipe.favorite ? '★' : '☆'}
+                    </button>
+                  }
+                />
               ))}
           </div>
         </div>
