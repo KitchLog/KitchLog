@@ -2,7 +2,7 @@
 
 CodePath WEB103 Final Project
 
-Designed and developed by: Sanvi Singh, Omar Alim Mohamed, Yumejichi Fujita, Viet Thai Nguyen
+Designed and developed by: [Yumejichi Fujita](https://github.com/Yumejichi),  [Omar Alim Mohamed](https://github.com/thetireddude), [Viet Thai Nguyen](https://github.com/AlgoriThai07), [Sanvi Singh](https://github.com/sansin112)
 
 🔗 Link to deployed app:
 
