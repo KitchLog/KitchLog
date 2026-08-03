@@ -86,11 +86,18 @@ Backend endpoints support creating and managing cooking plans from saved recipes
     </a>
   </div>
 
-### Cooking Plan _(Frontend Planned)_
+### ✅ Cooking Plan _(Frontend)_
 
 Frontend page where users can select saved recipes, create a cooking plan, and view planned recipes.
 
-[gif goes here]
+<div>
+    <a href="https://www.loom.com/share/1402f85647f84d8a969a010129cb3c11">
+      <p>Cooking Plan Frontend Demo - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/1402f85647f84d8a969a010129cb3c11">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/1402f85647f84d8a969a010129cb3c11-dac5e231ce785703-full-play.gif#t=0.1">
+    </a>
+  </div>
 
 ### Automatic Grocery List
 
