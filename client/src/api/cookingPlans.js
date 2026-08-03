@@ -53,3 +53,28 @@ export const deleteCookingPlan = async (id) => {
 
   return handleResponse(response)
 }
+
+export const getGroceryList = async (planId) => {
+  const response = await fetch(`${API_URL}/cooking-plans/${planId}/grocery-list`)
+  return handleResponse(response)
+}
+
+export const generateGroceryList = async (planId) => {
+  const response = await fetch(`${API_URL}/cooking-plans/${planId}/grocery-list/generate`, {
+    method: 'POST',
+  })
+
+  return handleResponse(response)
+}
+
+export const updateGroceryItem = async (planId, itemId, checked) => {
+  const response = await fetch(`${API_URL}/cooking-plans/${planId}/grocery-list/${itemId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ checked }),
+  })
+
+  return handleResponse(response)
+}
