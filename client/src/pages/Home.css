@@ -230,6 +230,7 @@
 
 .recipe-row,
 .cooking-plan-row {
+  position: relative;
   display: grid;
   grid-template-columns: 74px minmax(0, 1fr) auto;
   align-items: center;
@@ -243,7 +244,13 @@
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
-    transform 160ms ease;
+  transform 160ms ease;
+}
+
+.recipe-row {
+  grid-template-columns: 74px minmax(0, 1fr);
+  align-items: start;
+  padding-right: 64px;
 }
 
 .cooking-plan-row {
@@ -280,6 +287,10 @@
   object-fit: cover;
 }
 
+.recipe-image {
+  grid-row: 1 / span 2;
+}
+
 .recipe-info,
 .cooking-plan-info {
   min-width: 0;
@@ -309,6 +320,13 @@
   font-size: 0.9rem;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.recipe-meta {
+  grid-column: 2;
+  justify-items: start;
+  margin-top: 2px;
+  white-space: normal;
 }
 
 .status-card {
@@ -355,6 +373,57 @@
 
 .error-state h2 {
   color: #991b1b;
+}
+
+.inline-error {
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff8f8;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.favorite-filter-pill {
+  color: #92400e;
+}
+
+.favorite-filter-pill.active {
+  border-color: #f59e0b;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  min-height: 32px;
+  min-width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.favorite-btn:hover:not(:disabled) {
+  color: #f59e0b;
+  transform: scale(1.05);
+}
+
+.favorite-btn.active {
+  color: #f59e0b;
+}
+
+.favorite-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 @media (max-width: 720px) {

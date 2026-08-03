@@ -83,6 +83,34 @@
   font-weight: 800;
 }
 
+.favorite-pill {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 999px;
+  background: #e8f3ef;
+  color: #1f6f5b;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.favorite-pill:hover:not(:disabled) {
+  background: #d4e9e2;
+  transform: scale(1.02);
+}
+
+.favorite-pill.active {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.favorite-pill:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .details-actions {
   display: flex;
   justify-content: space-between;
