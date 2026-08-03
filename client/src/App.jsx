@@ -7,7 +7,6 @@ import RecipeForm from './pages/RecipeForm'
 import CookingPlanForm from './pages/CookingPlanForm'
 import RecipeImport from './pages/RecipeImport'
 import Admin from './pages/Admin'
-import './App.css'
 
 function App() {
   return (
