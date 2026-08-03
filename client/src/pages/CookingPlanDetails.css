@@ -1,0 +1,240 @@
+.cooking-plan-details-page {
+  width: min(100%, 920px);
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #1f2933;
+  text-align: left;
+}
+
+.cooking-plan-details-page .details-topbar {
+  margin-bottom: 20px;
+}
+
+.cooking-plan-details-page .edit-link {
+  background: #1f6f5b;
+  color: #ffffff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.cooking-plan-details-page .details-hero {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.08);
+}
+
+.cooking-plan-details-page .details-hero img {
+  width: 100%;
+  height: 210px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #fff7ed;
+}
+
+.cooking-plan-details-page .details-hero h1 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.08;
+}
+
+.cooking-plan-details-page .details-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.cooking-plan-details-page .details-meta span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #e8f3ef;
+  color: #1f6f5b;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.cooking-plan-details-page .cooking-plan-details {
+  display: grid;
+  gap: 18px;
+}
+
+.cooking-plan-details-page .details-section {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.cooking-plan-details-page .details-section h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.25rem;
+}
+
+.cooking-plan-details-page .section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cooking-plan-details-page .recipe-list {
+  display: grid;
+  gap: 12px;
+}
+
+.cooking-plan-details-page .recipe-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cooking-plan-details-page .recipe-image {
+  width: 74px;
+  height: 58px;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #fff7ed;
+}
+
+.cooking-plan-details-page .recipe-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cooking-plan-details-page .recipe-info {
+  min-width: 0;
+}
+
+.cooking-plan-details-page .recipe-info h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.cooking-plan-details-page .recipe-info p {
+  margin-top: 6px;
+  color: #667085;
+  font-size: 0.92rem;
+}
+
+.cooking-plan-details-page .recipe-meta {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  color: #475467;
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cooking-plan-details-page .delete-btn {
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  border: none;
+  background: #991b1b;
+  color: #ffffff;
+}
+
+.cooking-plan-details-page .delete-btn:hover {
+    transform: scale(1.02);
+    background: #721616;
+}
+
+.cooking-plan-details-page .delete-btn:active {
+  transform: scale(1);
+}
+
+.cooking-plan-details-page .edit-link,
+.cooking-plan-details-page .back-link {
+  transition: transform 0.5s ease;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.cooking-plan-details-page .back-link:hover {
+  transform: scale(1.02);
+  border: 1px solid #1f6f5b;
+}
+
+.cooking-plan-details-page .edit-link:hover {
+    transform: scale(1.02);
+    background: #103c31;
+}
+
+.cooking-plan-details-page .edit-link:active,
+.cooking-plan-details-page .back-link:active {
+  transform: scale(1);
+}
+
+.cooking-plan-details-page .back-link {
+  width: fit-content;
+  text-align: center;
+}
+
+.cooking-plan-details-page .details-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.cooking-plan-details-page .details-error,
+.cooking-plan-details-page .details-status {
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff8f8;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.cooking-plan-details-page .details-status {
+  border: 1px dashed #cfd7df;
+  background: #ffffff;
+  color: #667085;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .cooking-plan-details-page {
+    padding: 20px;
+  }
+
+  .cooking-plan-details-page .section-heading-row,
+  .cooking-plan-details-page .details-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cooking-plan-details-page .delete-btn {
+    width: 100%;
+  }
+}

@@ -18,6 +18,7 @@ function App() {
         <Route path="/recipes/:id" element={<RecipeDetails />} />
         <Route path="/cooking-plans/:id" element={<CookingPlanDetails />} />
         <Route path="/recipes/:id/edit" element={<RecipeForm />} />
+        <Route path="/cooking-plans/:id/edit" element={<CookingPlanForm />} />
       </Routes>
     </BrowserRouter>
   )

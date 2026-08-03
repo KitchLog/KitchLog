@@ -200,6 +200,10 @@
   transition: all 0.5s ease;
 }
 
+.ingredient-row .remove-btn {
+  min-height: 50px;
+}
+
 .recipe-form-page .secondary-btn:hover,
 .recipe-form-page .save-btn:hover {
   transform: scale(1.02);

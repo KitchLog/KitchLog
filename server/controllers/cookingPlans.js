@@ -28,6 +28,8 @@ const getAllCookingPlans = async (req, res) => {
                             'title', r.title,
                             'category', r.category,
                             'cook_time', r.cook_time,
+                            'servings', r.servings,
+                            'image_url', r.image_url,
                             'instructions', r.instructions,
                             'source_url', r.source_url,
                             'favorite', r.favorite
@@ -63,6 +65,8 @@ const getCookingPlanById = async (req, res) => {
                             'title', r.title,
                             'category', r.category,
                             'cook_time', r.cook_time,
+                            'servings', r.servings,
+                            'image_url', r.image_url,
                             'instructions', r.instructions,
                             'source_url', r.source_url,
                             'favorite', r.favorite
@@ -137,6 +141,8 @@ const createCookingPlan = async (req, res) => {
                             'title', r.title,
                             'category', r.category,
                             'cook_time', r.cook_time,
+                            'servings', r.servings,
+                            'image_url', r.image_url,
                             'instructions', r.instructions,
                             'source_url', r.source_url,
                             'favorite', r.favorite
@@ -243,6 +249,8 @@ const updateCookingPlan = async (req, res) => {
                             'title', r.title,
                             'category', r.category,
                             'cook_time', r.cook_time,
+                            'servings', r.servings,
+                            'image_url', r.image_url,
                             'instructions', r.instructions,
                             'source_url', r.source_url,
                             'favorite', r.favorite
