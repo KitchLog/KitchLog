@@ -129,6 +129,12 @@ function CookingPlanDetails() {
 
         <div className="details-actions">
             <Link
+            to={`/cooking-plans/${cookingPlan.id}/grocery-list`}
+            className="edit-link"
+            >
+            View Grocery List
+            </Link>
+            <Link
             to={`/cooking-plans/${cookingPlan.id}/edit`}
             className="edit-link"
             >
@@ -146,7 +152,7 @@ function CookingPlanDetails() {
 
             <div className="recipe-list">
             {cookingPlan.recipes.map((recipe) => (
-                <div key={recipe.id} className="recipe-row">
+                <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="recipe-row">
                     <div className="recipe-image">
                     <img
                         src={
@@ -171,7 +177,7 @@ function CookingPlanDetails() {
                     </span>
                     <span>Servings: {recipe.servings || "N/A"}</span>
                     </div>
-                </div>
+                </Link>
                 ))}
             </div>
         </section>

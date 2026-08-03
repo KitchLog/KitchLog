@@ -159,7 +159,7 @@ function RecipeForm() {
       <main className="recipe-form-page">
         <div className="form-status form-error">
           <h1>{error}</h1>
-          <Link to="/">Back to recipes</Link>
+          <Link to="/">Back to Home</Link>
         </div>
       </main>
     )
